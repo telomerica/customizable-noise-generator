@@ -14,6 +14,8 @@ def random_(array,probability,choice,float=False):
     iter = int((array.shape[0]*array.shape[1])*probability)
 
     for i in range(iter):
+        if choice == "rnd":
+            choice=random.random()
         array[random.randrange(0,array.shape[0]-1)][random.randrange(0,array.shape[1]-1)]=choice
     return array
 
@@ -30,7 +32,7 @@ def perlin_(array,octaves,seed,object,bias=0,float=False):
         for x in range(len(temp_w[0])):
             array[temp_w[0][x]][temp_w[1][x]] = object
     else:
-        array = array+sigmoid_(temp)
+        array = array+temp
     return array
 
 def array_build(grid,functionslist,float=False):
