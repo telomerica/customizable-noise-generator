@@ -1,8 +1,12 @@
 import numpy as np
 import random
 from perlin_noise import PerlinNoise
-from img_map import *
 
+def array_builder(map_array, steps):
+    temp_array = map_array
+    for step in steps:
+        temp_array=step["method"](temp_array,**step["args"])
+    return temp_array
 
 def sigmoid_(array,float=False):
     return 1 / (1+np.exp(-array))
@@ -19,7 +23,6 @@ def random_(array,probability,choice,float=False):
         array[random.randrange(0,array.shape[0]-1)][random.randrange(0,array.shape[1]-1)]=choice
     return array
 
-
 def perlin_(array,octaves,seed,object,bias=0,float=False):
     grid = array.shape
     perlin = PerlinNoise(octaves=octaves, seed=seed)
@@ -34,15 +37,5 @@ def perlin_(array,octaves,seed,object,bias=0,float=False):
     else:
         array = array+temp
     return array
+    return val1-val2
 
-def array_build(grid,functionslist,float=False):
-    print(float)
-    mappe = np.zeros(grid)
-
-    dict_of_functions={"random":random_,"perlin":perlin_,"sigmoid":sigmoid_,"bias":bias_}
-
-    for fc in functionslist:
-        function = dict_of_functions.get(fc[0])
-        mappe = function(mappe,*fc[1],float) 
-
-    return mappe
