@@ -14,14 +14,14 @@ def sigmoid_(array,float=False):
 def bias_(array,bias,float=False):
     return array+bias
 
-def random_(array,probability,choice,float=False):
-    iter = int((array.shape[0]*array.shape[1])*probability)
-
-    for i in range(iter):
-        if choice == "rnd":
-            choice=random.random()
-        array[random.randrange(0,array.shape[0]-1)][random.randrange(0,array.shape[1]-1)]=choice
-    return array
+def random_(array,probability,float=False):
+    x = array
+    for row in x:
+        coords = np.random.randint(0,len(row),size=(int(len(row)*probability)))
+        r = np.random.rand(*row.shape)
+        row[coords] = r[coords]
+        #print(row)
+    return x
 
 def perlin_(array,octaves,seed,object,bias=0,float=False):
     grid = array.shape
@@ -37,5 +37,4 @@ def perlin_(array,octaves,seed,object,bias=0,float=False):
     else:
         array = array+temp
     return array
-    return val1-val2
 
