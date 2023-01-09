@@ -12,7 +12,8 @@ def draw_map(map_array,color_dict=None,float=False):
         for i in range(255):
             color_dict[i]=(i,i,i)
         map_array = np.rint(map_array*255)
-
+    if float==False:
+        map_array = np.rint(map_array).astype(int)
     img = Image.new("RGB", (map_array.shape))
     img1 = ImageDraw.Draw(img)  
     img1.rectangle( [(0,0),(map_array.shape)] ,fill="white",outline="white")
@@ -27,12 +28,14 @@ def draw_map(map_array,color_dict=None,float=False):
     return img
 
 
-def save_map(map_array,color_dict=None,draw=True,float=False):
-    zeroeth = np.flip(map_array,0)
-    oneth = np.flip(map_array,1)
-    z_one = np.flip(zeroeth,1)
+def save_map(map_array,color_dict=None,draw=True,float=False,flip=False,settings=False):
+    all_arrays = [map_array]
+    if flip!=False:
+        zeroeth = np.flip(map_array,0)
+        oneth = np.flip(map_array,1)
+        z_one = np.flip(zeroeth,1)
 
-    all_arrays = [map_array,zeroeth,oneth,z_one]
+        all_arrays.append(zeroeth,oneth,z_one)
     extend_list = ["f0","f1","f2","f3"]
             
     already_saved = (os.listdir("saved_arrays"))
@@ -40,7 +43,6 @@ def save_map(map_array,color_dict=None,draw=True,float=False):
     for i in already_saved:
         l,b = i.split("-")
         a_ls.append(int(l))
-
 
     a_ls.sort()
     last_number = int(a_ls[-1])
@@ -55,3 +57,7 @@ def save_map(map_array,color_dict=None,draw=True,float=False):
         
         with open(f'{os.getcwd()}/saved_arrays/{generated_name}.npy', 'wb') as f:
             np.save(f, all_arrays[i])
+
+        if settings!=False:
+            with open(f'{os.getcwd()}/saved_settings/{generated_name}.txt', 'w') as f:
+                f.write(str(settings))
