@@ -8,8 +8,8 @@ def array_builder(map_array, steps):
         temp_array=step["method"](temp_array,**step["args"])
     return temp_array
 
-def sigmoid_(array,float=False):
-    return 1 / (1+np.exp(-array))
+def sigmoid_(array,num,float=True):
+    return num / (1+np.exp(-array))
 
 def bias_(array,bias,float=False):
     return array+bias
@@ -22,6 +22,19 @@ def random_(array,probability,float=False):
         row[coords] = r[coords]
         #print(row)
     return x
+
+def perlins(howmany,float_):
+    u = []
+    for i in range(howmany):
+        octave_random = random.choice([1,3,7,15])
+        seed_random = random.randint(0,100)
+        object_random = random.choice([0,1,2])
+        bias_random = random.choice([0.15,0.1,0,-0.1,-0.2,-0.3,-0.4,-0.5])
+        float_ = float_
+        
+        u.append({"method":perlin_,"args":{"octaves":octave_random,"seed":seed_random,"object":object_random,
+        "bias":bias_random,"float":float_}})
+    return u
 
 def perlin_(array,octaves,seed,object,bias=0,float=False):
     grid = array.shape
@@ -38,3 +51,14 @@ def perlin_(array,octaves,seed,object,bias=0,float=False):
         array = array+temp
     return array
 
+def convert_float_to_int(array,segments):
+    max=np.max(array)
+    min=np.min(array)
+    
+    difference=max-min #60
+    step = difference/segments #25
+
+    for i in range(segments):
+        array[array>max+(step*i)]=i
+        array[array<min+(step*i)]=i
+    return array

@@ -3,7 +3,7 @@ import random
 import numpy as np
 import os
 
-def draw_map(map_array,color_dict=None,float=False):
+def draw_map(map_array,color_dict=None,float=False,value=1):
     if color_dict==None:
         color_dict = {0:(11,180,60),1:(105,119,46),2:(157,206,243),3:(0,0,0)}
     
@@ -11,9 +11,12 @@ def draw_map(map_array,color_dict=None,float=False):
         color_dict = {}
         for i in range(255):
             color_dict[i]=(i,i,i)
-        map_array = np.rint(map_array*255)
+        map_array = np.rint((map_array*255)/value)
+
+
     if float==False:
         map_array = np.rint(map_array).astype(int)
+    
     img = Image.new("RGB", (map_array.shape))
     img1 = ImageDraw.Draw(img)  
     img1.rectangle( [(0,0),(map_array.shape)] ,fill="white",outline="white")
@@ -28,7 +31,7 @@ def draw_map(map_array,color_dict=None,float=False):
     return img
 
 
-def save_map(map_array,color_dict=None,draw=True,float=False,flip=False,settings=False):
+def save_map(map_array,color_dict=None,draw=True,float=False,flip=False,settings=False,value=1):
     all_arrays = [map_array]
     if flip!=False:
         zeroeth = np.flip(map_array,0)
@@ -54,7 +57,7 @@ def save_map(map_array,color_dict=None,draw=True,float=False,flip=False,settings
         extend = extend_list[i]
         generated_name = f"{next_number}-{extend}"
         if draw==True:
-            img = draw_map(all_arrays[i],color_dict,float)        
+            img = draw_map(all_arrays[i],color_dict,float,value=value)        
             img.save(f"saved_images/{generated_name}.png")
         
         with open(f'{os.getcwd()}/saved_arrays/{generated_name}.npy', 'wb') as f:
