@@ -43,6 +43,8 @@ def save_map(map_array,color_dict=None,draw=True,float=False,flip=False,settings
     for i in already_saved:
         l,b = i.split("-")
         a_ls.append(int(l))
+    if len(a_ls)==0:
+        a_ls.append(0)
 
     a_ls.sort()
     last_number = int(a_ls[-1])
