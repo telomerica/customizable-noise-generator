@@ -11,8 +11,12 @@ def array_builder(map_array, steps):
 def sigmoid_(array,num,float=True):
     return num / (1+np.exp(-array))
 
-def bias_(array,bias,float=False):
-    return array+bias
+def bias_(array,bias,values=None):
+    if values==None:
+        return array+bias
+    else:
+        array[values[0]:values[1]]+bias
+        return array
 
 def random_(array,probability,float=False):
     x = array
@@ -55,10 +59,13 @@ def convert_float_to_int(array,segments):
     max=np.max(array)
     min=np.min(array)
     
+    #print("max",max)
+    #print("min",min)
+
     difference=max-min #60
     step = difference/segments #25
-
-    for i in range(segments):
-        array[array>max+(step*i)]=i
-        array[array<min+(step*i)]=i
+    
+    #[60,65,130,150,9999999,999999999]
+    for i in range(len(segments)-1):
+        array[array>segments[i]]=i-1
     return array

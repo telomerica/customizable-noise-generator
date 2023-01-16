@@ -5,14 +5,13 @@ import os
 
 def draw_map(map_array,color_dict=None,float=False,value=1):
     if color_dict==None:
-        color_dict = {0:(11,180,60),1:(105,119,46),2:(157,206,243),3:(0,0,0)}
+        color_dict = {0:(157,206,243),1:(105,119,46),2:(11,180,60),3:(244,211,86),4:(0,0,0)}
     
     if float==True:
         color_dict = {}
         for i in range(255):
             color_dict[i]=(i,i,i)
         map_array = np.rint((map_array*255)/value)
-
 
     if float==False:
         map_array = np.rint(map_array).astype(int)
