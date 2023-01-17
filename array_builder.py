@@ -55,6 +55,13 @@ def perlin_(array,octaves,seed,object,bias=0,float=False):
         array = array+temp
     return array
 
+def flip(map_array):
+    zeroeth = np.flip(map_array,0)
+    oneth = np.flip(map_array,1)
+    z_one = np.flip(zeroeth,1)
+
+    return map_array, zeroeth, oneth, z_one
+
 def convert_float_to_int(array,segments):
     max=np.max(array)
     min=np.min(array)

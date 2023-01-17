@@ -30,16 +30,7 @@ def draw_map(map_array,color_dict=None,float=False,value=1):
     return img
 
 
-def save_map(map_array,color_dict=None,draw=True,float=False,flip=False,settings=False,value=1):
-    all_arrays = [map_array]
-    if flip!=False:
-        zeroeth = np.flip(map_array,0)
-        oneth = np.flip(map_array,1)
-        z_one = np.flip(zeroeth,1)
-
-        all_arrays.append(zeroeth,oneth,z_one)
-    extend_list = ["f0","f1","f2","f3"]
-            
+def save_map(map_array,color_dict=None,draw=True,float=False,flip=False,settings=False,value=1,extend=""):            
     already_saved = (os.listdir("saved_arrays"))
     a_ls = []
     for i in already_saved:
@@ -52,15 +43,13 @@ def save_map(map_array,color_dict=None,draw=True,float=False,flip=False,settings
     last_number = int(a_ls[-1])
     next_number = last_number+1
 
-    for i in range(len(all_arrays)):
-        extend = extend_list[i]
-        generated_name = f"{next_number}-{extend}"
-        if draw==True:
-            img = draw_map(all_arrays[i],color_dict,float,value=value)        
-            img.save(f"saved_images/{generated_name}.png")
+    generated_name = f"{next_number}-{extend}"
+    if draw==True:
+        img = draw_map(map_array,color_dict,float,value=value)        
+        img.save(f"saved_images/{generated_name}.png")
         
         with open(f'{os.getcwd()}/saved_arrays/{generated_name}.npy', 'wb') as f:
-            np.save(f, all_arrays[i])
+            np.save(f, map_array)
 
         if settings!=False:
             with open(f'{os.getcwd()}/saved_settings/{generated_name}.txt', 'w') as f:
