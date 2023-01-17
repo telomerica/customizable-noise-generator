@@ -76,3 +76,12 @@ def convert_float_to_int(array,segments):
     for i in range(len(segments)-1):
         array[array>segments[i]]=i-1
     return array
+
+def border(map_array,bordersize):
+    grid = map_array.shape
+    x = grid[0]+bordersize
+    y = grid[1]+bordersize
+    border = np.full((x,y),4)
+    border[35:-35,35:-35] = map_array
+    map_array = border
+    return map_array
