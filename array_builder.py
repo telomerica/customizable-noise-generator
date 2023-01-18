@@ -2,6 +2,9 @@ import numpy as np
 import random
 from perlin_noise import PerlinNoise
 
+def map_maker(scale,object):
+    return np.full((100*scale,100*scale),object)
+
 def array_builder(map_array, steps):
     temp_array = map_array
     for step in steps:
