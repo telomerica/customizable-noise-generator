@@ -1,7 +1,6 @@
 from array_builder import *
 from img_map import *
 from convoluter import *
-import numpy as np
 
 def map_construct(amount,scale,float_,value_sigmoid):
     for i in range(amount):
@@ -12,34 +11,43 @@ def map_construct(amount,scale,float_,value_sigmoid):
         map_array = map_maker(scale=scale,object=0)
 
         settings_l0 = [*perlins_l,
-            {"method":bias_,"args":{"bias":-200,"values":(225,275)}},
-            {"method":sigmoid_,"args":{"num":value,"float":True}},
+            {"method":bias_,"args":{"bias":-2,"values":(225,275)}},
+            #{"method":sigmoid_,"args":{"num":value,"float":True}},
         ]
         
         settings_l1 = [*settings_l0,
-        {"method":convert_float_to_int,"args":{"segments":[45,50,115,150,9999999,999999999]}},
+        {"method":convert_float_to_int,"args":{"segments":4}},
         {"method":border,"args":{"bordersize":70,"object":4}}
         ]
         array1 = (array_builder(map_array,steps=settings_l1))
         save_map(array1,color_dict=None,draw=True,float=False,settings=settings_l1,value=value)
 
         settings_l2 = [*settings_l0,
-        {"method":bias_,"args":{"bias":-2}},
-        {"method":sigmoid_,"args":{"num":value,"float":True}},
-        {"method":convert_float_to_int,"args":{"segments":[45,50,115,150,9999999,999999999]}},
+        {"method":bias_,"args":{"bias":0.5}},
+        #{"method":sigmoid_,"args":{"num":value,"float":True}},
+        {"method":convert_float_to_int,"args":{"segments":4}},
         {"method":border,"args":{"bordersize":70,"object":4}}
         ]
         array2 = (array_builder(map_array,steps=settings_l2))
         save_map(array2,color_dict=None,draw=True,float=False,settings=settings_l2,value=value,extend="a")
 
         settings_l3 = [*settings_l0,
-        {"method":bias_,"args":{"bias":0.1}},
-        {"method":sigmoid_,"args":{"num":value,"float":True}},
-        {"method":convert_float_to_int,"args":{"segments":[45,50,115,150,9999999,999999999]}},
+        {"method":bias_,"args":{"bias":1}},
+        #{"method":sigmoid_,"args":{"num":value,"float":True}},
+        {"method":convert_float_to_int,"args":{"segments":4}},
         {"method":border,"args":{"bordersize":70,"object":4}}
         ]
         array3 = (array_builder(map_array,steps=settings_l3))
         save_map(array3,color_dict=None,draw=True,float=False,settings=settings_l3,value=value,extend="b")
+
+        settings_l4 = [*settings_l0,
+        {"method":bias_,"args":{"bias":0.2}},
+        #{"method":sigmoid_,"args":{"num":value,"float":True}},
+        {"method":convert_float_to_int,"args":{"segments":4}},
+        {"method":border,"args":{"bordersize":70,"object":4}}
+        ]
+        array4 = (array_builder(map_array,steps=settings_l4))
+        save_map(array4,color_dict=None,draw=True,float=False,settings=settings_l4,value=value,extend="c")
 
 
         #map drawing needs a smear mode for floats where the average of the 

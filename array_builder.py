@@ -66,6 +66,12 @@ def flip(map_array):
     return map_array, zeroeth, oneth, z_one
 
 def convert_float_to_int(array,segments):
+    array= np.rint(array*(segments-1))
+    array[array>segments-1]=segments-1
+    array[array<0]=0
+    return array
+
+def convert_float_to_int_old(array,segments):
     max=np.max(array)
     min=np.min(array)
     
@@ -79,6 +85,8 @@ def convert_float_to_int(array,segments):
     for i in range(len(segments)-1):
         array[array>segments[i]]=i-1
     return array
+
+
 
 def border(map_array,bordersize,object):
     grid = map_array.shape
